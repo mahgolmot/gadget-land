@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="گجت‌لند | فروشگاه آنلاین لوازم جانبی موبایل — قاب، هدفون، پاوربانک، شارژر و بیشتر" />
+  <meta name="theme-color" content="#0b0d12" />
+  <title>گجت‌لند | فروشگاه لوازم جانبی موبایل</title>
+
+  <!-- فونت وزیرمتن -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@100..900&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="css/style.css?v=4" />
+</head>
+<body>
+  <a class="skip-link" href="#mainContent">رفتن به محتوای اصلی</a>
+
+  <!-- ===== هدر چسبان ===== -->
+  <header class="site-header" id="siteHeader">
+    <div class="container header-inner">
+      <a href="#hero" class="logo" aria-label="گجت‌لند - صفحه اصلی">
+        <span class="logo-mark">📱</span>
+        <span class="logo-text">گجت<em>‌لند</em></span>
+      </a>
+
+      <nav class="main-nav" id="mainNav" aria-label="منوی اصلی">
+        <ul>
+          <li><a href="#hero" class="nav-link">خانه</a></li>
+          <li><a href="#features" class="nav-link">مزایا</a></li>
+          <li><a href="shop.html" class="nav-link">فروشگاه</a></li>
+          <li class="category-nav"><button class="nav-link category-trigger" type="button" aria-expanded="false" aria-controls="categoryMegaMenu">دسته‌بندی‌ها</button><div class="category-mega glass" id="categoryMegaMenu" aria-label="دسته‌بندی محصولات"></div></li>
+          <li><a href="#support" class="nav-link">پشتیبانی</a></li>
+          <li><a href="about.html" class="nav-link">درباره ما</a></li>
+          <li><a href="contact.html" class="nav-link">تماس با ما</a></li>
+        </ul>
+      </nav>
+
+      <div class="header-actions">
+        <a class="account-link" href="account.html" aria-label="حساب کاربری">حساب</a>
+        <button class="cart-btn" id="cartBtn" aria-label="باز کردن سبد خرید">
+          🛒
+          <span class="cart-badge" id="cartBadge">۰</span>
+        </button>
+        <button class="hamburger" id="hamburgerBtn" aria-label="منو" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===== منوی موبایل ===== -->
+  <div class="mobile-menu" id="mobileMenu" aria-hidden="true">
+    <nav aria-label="منوی موبایل">
+      <ul>
+        <li><a href="#hero">خانه</a></li>
+        <li><a href="#features">مزایا</a></li>
+        <li><a href="shop.html">فروشگاه</a></li>
+        <li class="mobile-categories"><button type="button" aria-expanded="false">دسته‌بندی‌ها <span>⌄</span></button><div id="mobileCategoryLinks"></div></li>
+        <li><a href="about.html">درباره ما</a></li>
+        <li><a href="contact.html">تماس با ما</a></li>
+        <li><a href="#stats">آمار</a></li>
+        <li><a href="#newsletter">خبرنامه</a></li>
+        <li><a href="account.html">حساب کاربری</a></li>
+      </ul>
+    </nav>
+  </div>
+
+  <main id="mainContent">
+    <!-- ===== هیرو ===== -->
+    <section class="hero" id="hero">
+      <canvas id="heroCanvas" aria-hidden="true"></canvas>
+      <div class="hero-overlay"></div>
+      <div class="container hero-content">
+        <h1 class="hero-title" id="heroTitle">فقط وصل نباش؛ جلوتر باش.</h1>
+        <p class="hero-subtitle" id="heroSubtitle">
+          گجت‌هایی برای آدم‌هایی که آینده را منتظر نمی‌مانند؛ آن را زندگی می‌کنند.
+        </p>
+        <div class="hero-cta">
+          <a href="shop.html" class="btn btn-primary btn-lg ripple" id="heroCta">ورود به فروشگاه</a>
+          <a href="#categories" class="btn btn-ghost btn-lg">دسته‌بندی‌ها</a>
+        </div>
+      </div>
+      <div class="hero-scroll-hint" aria-hidden="true">↓</div>
+    </section>
+
+    <!-- ===== ویترین تصویری ===== -->
+    <section class="visual-edit section" id="editorial" aria-labelledby="visualEditTitle">
+      <div class="container">
+        <div class="visual-edit-head reveal">
+          <div><span class="eyebrow">CURATED FOR YOUR SETUP</span><h2 id="visualEditTitle">تکنولوژی، وقتی خوش‌استایل می‌شود.</h2></div>
+          <a class="editorial-all" href="shop.html">دیدن همه محصولات ←</a>
+        </div>
+        <div class="visual-edit-grid">
+          <a class="visual-tile visual-tile-wide reveal" href="shop.html?q=هدفون"><img src="assets/home/headphones-studio-web.png" alt="هدفون بی‌سیم مشکی با نورپردازی آبی" loading="lazy"><span><small>صدایی که دیده می‌شود</small><strong>هدفون‌های حرفه‌ای</strong></span></a>
+          <a class="visual-tile reveal" href="shop.html?q=ساعت"><img src="assets/home/smartwatch-studio-web.png" alt="ساعت هوشمند مدرن در استودیوی تیره" loading="lazy"><span><small>هوشمند روی مچ</small><strong>پوشیدنی‌های آینده</strong></span></a>
+          <a class="visual-tile reveal" href="shop.html?q=ایربادز"><img src="assets/home/earbuds-studio-web.png" alt="ایربادز بی‌سیم با کیس شارژ و نور آبی" loading="lazy"><span><small>آزاد، سبک، همیشه همراه</small><strong>ایربادز بی‌سیم</strong></span></a>
+          <a class="visual-tile visual-tile-wide reveal" href="shop.html?q=شارژر"><img src="assets/home/charger-studio-web.png" alt="شارژر سریع و کابل تایپ سی روی زمینه تیره" loading="lazy"><span><small>انرژی بدون مکث</small><strong>شارژر و کابل سریع</strong></span></a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== مزایا ===== -->
+    <section class="features section" id="features">
+      <div class="container">
+        <h2 class="section-title reveal">چرا گجت‌لند؟</h2>
+        <p class="section-subtitle reveal">تجربه‌ای مطمئن از خرید آنلاین لوازم جانبی</p>
+        <div class="features-grid">
+          <article class="feature-card glass reveal">
+            <div class="feature-icon">🚀</div>
+            <h3>ارسال سریع</h3>
+            <p>ارسال به سراسر کشور در کمتر از ۴۸ ساعت با بسته‌بندی ایمن.</p>
+          </article>
+          <article class="feature-card glass reveal">
+            <div class="feature-icon">🛡️</div>
+            <h3>ضمانت اصالت</h3>
+            <p>تمام کالاها اورجینال بوده و دارای ۱۸ ماه گارانتی معتبر هستند.</p>
+          </article>
+          <article class="feature-card glass reveal">
+            <div class="feature-icon">💳</div>
+            <h3>پرداخت امن</h3>
+            <p>درگاه پرداخت امن و امکان بازگشت وجه تا ۷ روز بدون قید و شرط.</p>
+          </article>
+          <article class="feature-card glass reveal">
+            <div class="feature-icon">💬</div>
+            <h3>پشتیبانی ۲۴/۷</h3>
+            <p>تیم پشتیبانی ما همیشه آنلاین است و پاسخگوی شما خواهد بود.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== محصولات ===== -->
+    <section class="products section" id="products">
+      <div class="container">
+        <h2 class="section-title reveal">پرفروش‌ترین محصولات</h2>
+        <p class="section-subtitle reveal">انتخاب هزاران مشتری راضی گجت‌لند</p>
+
+        <div class="shop-toolbar glass reveal" aria-label="ابزارهای جست‌وجو و فیلتر محصول">
+          <label class="product-search" for="productSearch">
+            <span aria-hidden="true">⌕</span>
+            <input id="productSearch" type="search" placeholder="جست‌وجوی محصول..." autocomplete="off" />
+          </label>
+          <div class="filter-chips" id="filterChips" role="group" aria-label="فیلتر دسته‌بندی">
+            <button class="filter-chip active" type="button" data-filter="all" aria-pressed="true">همه</button>
+          </div>
+          <label class="sort-control" for="productSort">
+            <span>مرتب‌سازی</span>
+            <select id="productSort">
+              <option value="popular">محبوب‌ترین</option>
+              <option value="price-asc">ارزان‌ترین</option>
+              <option value="price-desc">گران‌ترین</option>
+              <option value="name">نام محصول</option>
+            </select>
+          </label>
+        </div>
+        <p class="results-count" id="resultsCount" role="status" aria-live="polite">در حال دریافت محصولات…</p>
+
+        <div class="products-grid" id="productsGrid">
+          <div class="catalog-loading glass" role="status">در حال بارگذاری کاتالوگ…</div>
+        </div>
+        <div class="empty-products glass" id="emptyProducts" hidden>
+          <span aria-hidden="true">🔎</span>
+          <h3>محصولی پیدا نشد</h3>
+          <p>عبارت دیگری را امتحان کنید یا فیلترها را پاک کنید.</p>
+          <button class="btn btn-ghost" id="clearFilters" type="button">نمایش همه محصولات</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== کاروسل جدیدترین محصولات ===== -->
+    <section class="product-rail-section section" aria-labelledby="newestTitle">
+      <div class="container">
+        <div class="rail-head reveal"><div><span class="eyebrow">JUST LANDED</span><h2 id="newestTitle">جدیدترین محصولات</h2><p>تازه‌ترین انتخاب‌هایی که به ویترین گجت‌لند رسیده‌اند.</p></div><div class="rail-nav"><button type="button" data-rail-prev="newestRail" aria-label="قبلی">→</button><button type="button" data-rail-next="newestRail" aria-label="بعدی">←</button></div></div>
+        <div class="product-rail" id="newestRail"><div class="rail-loading">در حال دریافت جدیدترین‌ها…</div></div>
+      </div>
+    </section>
+
+    <!-- ===== کاروسل پیشنهادهای ما ===== -->
+    <section class="product-rail-section product-rail-alt section" aria-labelledby="recommendedTitle">
+      <div class="container">
+        <div class="rail-head reveal"><div><span class="eyebrow">GADGETLAND PICKS</span><h2 id="recommendedTitle">پیشنهادهای ما برای تو</h2><p>انتخاب‌هایی کاربردی، محبوب و آماده ارسال.</p></div><div class="rail-nav"><button type="button" data-rail-prev="recommendedRail" aria-label="قبلی">→</button><button type="button" data-rail-next="recommendedRail" aria-label="بعدی">←</button></div></div>
+        <div class="product-rail" id="recommendedRail"><div class="rail-loading">در حال چیدن پیشنهادها…</div></div>
+      </div>
+    </section>
+
+    <!-- ===== تیکر جدیدترین‌ها ===== -->
+    <div class="ticker" aria-label="جدیدترین محصولات">
+      <div class="ticker-track" id="tickerTrack">
+        <span class="ticker-item">⌚ مچ‌بند هوشمند نسل ۵</span>
+        <span class="ticker-item">🧲 قاب مگ‌سیف شفاف</span>
+        <span class="ticker-item">🎧 ایرپاد پرو ۲ اورجینال</span>
+        <span class="ticker-item">🔌 پایه شارژ سه‌کاره</span>
+        <span class="ticker-item">🏷️ برچسب ضدآب ردیاب</span>
+        <span class="ticker-item">🖱️ ماوس بلوتوث تاشو</span>
+      </div>
+    </div>
+
+    <!-- ===== دسته‌بندی‌ها ===== -->
+    <section class="categories section" id="categories">
+      <div class="container">
+        <h2 class="section-title reveal">دسته‌بندی محصولات</h2>
+        <p class="section-subtitle reveal">دنبال چه چیزی هستید؟</p>
+        <div class="categories-grid" id="categoriesGrid"><div class="catalog-loading glass">در حال دریافت دسته‌بندی‌ها…</div></div>
+      </div>
+    </section>
+
+    <!-- ===== آمار ===== -->
+    <section class="stats section" id="stats">
+      <div class="container">
+        <div class="stats-grid">
+          <div class="stat glass reveal">
+            <span class="stat-number" data-target="12000" data-suffix="+">۰</span>
+            <span class="stat-label">مشتری راضی</span>
+          </div>
+          <div class="stat glass reveal">
+            <span class="stat-number" data-target="5000" data-suffix="+">۰</span>
+            <span class="stat-label">محصول</span>
+          </div>
+          <div class="stat glass reveal">
+            <span class="stat-number" data-target="8" data-suffix="">۰</span>
+            <span class="stat-label">سال تجربه</span>
+          </div>
+          <div class="stat glass reveal">
+            <span class="stat-number" data-target="24" data-suffix="/۷">۰</span>
+            <span class="stat-label">پشتیبانی</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="support section" id="support">
+      <div class="container support-grid">
+        <div class="support-copy reveal">
+          <span class="eyebrow">خرید بدون دغدغه</span>
+          <h2>از انتخاب تا تحویل، کنار شماییم</h2>
+          <p>قبل از خرید مشاوره بگیرید، وضعیت سفارشتان را بررسی کنید و تا ۷ روز برای بازگشت کالا فرصت داشته باشید.</p>
+          <div class="support-actions">
+            <a class="btn btn-primary ripple" href="account.html#orders">پیگیری سفارش</a>
+            <button class="btn btn-ghost" type="button" data-open-modal="returnModal">شرایط بازگشت</button>
+          </div>
+        </div>
+        <div class="faq-list reveal" id="faq">
+          <h2>سوالات متداول</h2>
+          <details>
+            <summary>هزینه و زمان ارسال چقدر است؟</summary>
+            <p>سفارش‌ها طی ۱ تا ۲ روز کاری پردازش و با پست پیشتاز ارسال می‌شوند. ارسال خریدهای بالای ۷۰۰ هزار تومان رایگان است.</p>
+          </details>
+          <details>
+            <summary>چطور از اصالت کالا مطمئن شوم؟</summary>
+            <p>همه کالاها با ضمانت اصالت و مهلت تست عرضه می‌شوند و اطلاعات گارانتی روی فاکتور درج می‌شود.</p>
+          </details>
+          <details>
+            <summary>امکان تعویض یا بازگشت وجود دارد؟</summary>
+            <p>بله؛ کالای استفاده‌نشده با بسته‌بندی سالم تا ۷ روز قابل بازگشت است.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== خبرنامه ===== -->
+    <section class="newsletter section" id="newsletter">
+      <div class="container">
+        <div class="newsletter-box glass reveal">
+          <h2>عضویت در خبرنامه گجت‌لند</h2>
+          <p>از تخفیف‌های ویژه و محصولات جدید زودتر از همه باخبر شوید!</p>
+          <form id="newsletterForm" novalidate>
+            <input type="email" id="newsletterEmail" placeholder="ایمیل خود را وارد کنید" required aria-label="ایمیل" />
+            <button type="submit" class="btn btn-primary ripple">عضویت</button>
+          </form>
+          <p class="newsletter-msg" id="newsletterMsg" role="status" aria-live="polite"></p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===== فوتر ===== -->
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div class="footer-col">
+        <h3 class="footer-logo">گجت<em>‌لند</em></h3>
+        <p>فروشگاه آنلاین لوازم جانبی موبایل با ضمانت اصالت کالا و ارسال سریع به سراسر ایران.</p>
+      </div>
+      <div class="footer-col">
+        <h4>دسترسی سریع</h4>
+        <ul>
+          <li><a href="shop.html">همه محصولات</a></li>
+          <li><a href="shop.html#store">دسته‌بندی‌ها</a></li>
+          <li><a href="#newsletter">خبرنامه</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>خدمات مشتریان</h4>
+        <ul>
+          <li><a href="account.html#orders">پیگیری سفارش</a></li>
+          <li><button class="footer-link" type="button" data-open-modal="returnModal">شرایط بازگشت کالا</button></li>
+          <li><a href="#faq">سوالات متداول</a></li>
+          <li><a href="about.html">درباره گجت‌لند</a></li>
+          <li><a href="contact.html">تماس با ما</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>ارتباط با ما</h4>
+        <ul>
+          <li data-support-phone-row hidden><a data-support-phone href="#">📞 پشتیبانی</a></li>
+          <li>📍 تهران، خیابان ولیعصر</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© <span id="currentYear">۱۴۰۵</span> گجت‌لند — تمامی حقوق محفوظ است.</p>
+    </div>
+  </footer>
+
+  <!-- ===== کشوی سبد خرید ===== -->
+  <div class="cart-overlay" id="cartOverlay" aria-hidden="true"></div>
+  <aside class="cart-drawer" id="cartDrawer" aria-hidden="true" aria-label="سبد خرید" role="dialog" aria-modal="true">
+    <div class="cart-head">
+      <h3>🛒 سبد خرید</h3>
+      <button class="cart-close" id="cartClose" aria-label="بستن سبد خرید">✕</button>
+    </div>
+    <div class="cart-items" id="cartItems">
+      <p class="cart-empty">سبد خرید شما خالی است.</p>
+    </div>
+    <div class="cart-foot">
+      <div class="cart-total-row">
+        <span>مجموع:</span>
+        <strong id="cartTotal">۰ تومان</strong>
+      </div>
+      <button class="btn btn-primary btn-block ripple" id="checkoutBtn">ثبت سفارش</button>
+    </div>
+  </aside>
+
+  <dialog class="modal" id="returnModal" aria-labelledby="returnTitle">
+    <div class="modal-card compact">
+      <div class="modal-head"><div><span class="eyebrow">ضمانت رضایت</span><h2 id="returnTitle">شرایط بازگشت کالا</h2></div><button class="modal-close" type="button" data-close-modal aria-label="بستن">✕</button></div>
+      <ul class="policy-list">
+        <li><span>۱</span>درخواست بازگشت را تا ۷ روز پس از تحویل ثبت کنید.</li>
+        <li><span>۲</span>کالا باید استفاده‌نشده و همراه با بسته‌بندی و متعلقات باشد.</li>
+        <li><span>۳</span>پس از تأیید کارشناسی، وجه حداکثر طی ۷۲ ساعت بازگردانده می‌شود.</li>
+      </ul>
+      <a class="btn btn-primary btn-block" href="account.html#orders">مشاهده سفارش‌ها</a>
+    </div>
+  </dialog>
+
+  <!-- ===== کتابخانه‌ها (CDN) ===== -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+  <script src="js/api-client.js"></script>
+  <script src="js/main.js?v=2"></script>
+  <script src="js/storefront.js?v=4"></script>
+</body>
+</html>

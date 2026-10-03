@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="فروشگاه گجت‌لند؛ جست‌وجو و خرید لوازم جانبی موبایل، هدفون، شارژر، قاب و گجت‌های کاربردی">
+  <title>فروشگاه | گجت‌لند</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="shop.css?v=4">
+</head>
+<body>
+  <header class="shop-header">
+    <a class="shop-logo" href="index.html"><span>📱</span> گجت<span>‌لند</span></a>
+    <nav><a href="index.html">خانه</a><a class="active" href="shop.html">فروشگاه</a><a href="index.html#features">مزایا</a><a href="about.html">درباره ما</a><a href="contact.html">تماس با ما</a></nav>
+    <div class="shop-actions"><a href="account.html">حساب</a><a class="shop-cart" href="checkout.html">سبد <b data-cart-count>۰</b></a></div>
+  </header>
+
+  <main>
+    <section class="shop-hero">
+      <div class="shop-hero-grid" aria-hidden="true"></div><div class="shop-orb orb-a" aria-hidden="true"></div><div class="shop-orb orb-b" aria-hidden="true"></div>
+      <div class="shop-hero-copy"><span>GADGET LAND / ALL PRODUCTS</span><h1>هر چیزی که موبایلت<br><i>کم دارد، اینجاست.</i></h1><p>از ابزارهای ضروری تا گجت‌هایی که تجربهٔ دیجیتال تو را سریع‌تر، راحت‌تر و جذاب‌تر می‌کنند.</p></div>
+      <div class="shop-hero-stat"><strong data-total-products>—</strong><span>محصول برای کشف</span></div>
+    </section>
+
+    <section class="store" id="store">
+      <div class="store-head"><div><span class="eyebrow">EXPLORE THE COLLECTION</span><h2>ویترین گجت‌لند</h2></div><p>جست‌وجو کن، دسته‌بندی را انتخاب کن و محصول مناسب خودت را پیدا کن.</p></div>
+      <div class="shop-tools">
+        <label class="shop-search"><span>⌕</span><input id="shopSearch" type="search" placeholder="جست‌وجوی محصول یا برند…" autocomplete="off"></label>
+        <label class="shop-sort">مرتب‌سازی<select id="shopSort"><option value="popular">محبوب‌ترین</option><option value="newest">جدیدترین</option><option value="price-asc">ارزان‌ترین</option><option value="price-desc">گران‌ترین</option><option value="name">نام محصول</option></select></label>
+      </div>
+      <div class="shop-advanced" aria-label="فیلترهای تکمیلی">
+        <label class="shop-filter-field"><span>برند</span><select id="shopBrand"><option value="all">همه برندها</option></select></label>
+        <div class="price-filter"><span>بازه قیمت</span><label><small>از</small><input id="shopMinPrice" type="number" min="0" step="10000" inputmode="numeric" placeholder="۰"></label><label><small>تا</small><input id="shopMaxPrice" type="number" min="0" step="10000" inputmode="numeric" placeholder="بدون محدودیت"></label><em>تومان</em></div>
+      </div>
+      <div class="category-bar" id="shopCategories" role="group" aria-label="دسته‌بندی‌ها"><button class="active" data-category="all" type="button">همه محصولات</button></div>
+      <div class="result-line"><span id="shopResult">در حال دریافت محصولات…</span><button id="clearShopFilters" type="button" hidden>پاک‌کردن فیلترها ×</button></div>
+      <div class="shop-grid" id="shopGrid"><div class="shop-loading"><i></i><p>در حال چیدن ویترین…</p></div></div>
+    </section>
+  </main>
+
+  <footer class="shop-footer"><div><a class="shop-logo" href="index.html"><span>📱</span> گجت<span>‌لند</span></a><h2>فقط وصل نباش؛<br>جلوتر باش.</h2></div><nav><b>دسترسی سریع</b><a href="shop.html">همه محصولات</a><a href="account.html#orders">پیگیری سفارش</a><a href="checkout.html">سبد خرید</a></nav><nav><b>گجت‌لند</b><a href="about.html">درباره ما</a><a href="contact.html">تماس با ما</a><a href="index.html#support">پشتیبانی</a><a href="account.html">حساب کاربری</a></nav></footer>
+  <div class="shop-toast" role="status" aria-live="polite"></div>
+  <script src="js/api-client.js?v=2"></script>
+  <script src="shop.js?v=4"></script>
+  <script src="product-favorites.js?v=1"></script>
+</body>
+</html>
