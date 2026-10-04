@@ -1,25 +1,179 @@
-const $=selector=>document.querySelector(selector),$$=selector=>Array.from(document.querySelectorAll(selector));
-const fa=value=>new Intl.NumberFormat('fa-IR').format(Number(value)||0);
-const safe=value=>String(value??'').replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
-let variants=[],selected=null,allProducts=[],csrf='',currentUser=null,activeImages=[];
+(() => {
+  "use strict";
 
-function notice(text){const node=$('.notice');node.textContent=text;node.classList.add('show');clearTimeout(node._timer);node._timer=setTimeout(()=>node.classList.remove('show'),2400)}
-function loadCart(){try{const rows=JSON.parse(localStorage.getItem('gadgetland_cart_v1')||'[]');return Array.isArray(rows)?rows:[]}catch{return[]}}
-function saveCart(cart){localStorage.setItem('gadgetland_cart_v1',JSON.stringify(cart));const count=cart.reduce((sum,row)=>sum+Number(row.qty||0),0);localStorage.setItem('gadgetland_cart_count_v1',String(count));$('.cart-count').textContent=fa(count)}
-function cartCount(){saveCart(loadCart())}
-function fallbackGallery(){const stage=$('.gallery-stage');stage.innerHTML='<div class="gallery-fallback"><i></i><span>تصویر این محصول هنوز ثبت نشده است</span></div>'}
-function showImage(src,name){const stage=$('.gallery-stage');stage.innerHTML=`<img src="${safe(src)}" alt="${safe(name)}"><button class="zoom" type="button" aria-label="نمایش بزرگ">⌕</button>`;const image=stage.querySelector('img');image.onerror=fallbackGallery;image.onclick=openLightbox;stage.querySelector('.zoom').onclick=openLightbox}
-function openLightbox(){const image=$('.gallery-stage img');if(!image)return;$('.lightbox img').src=image.src;$('.lightbox').classList.add('open')}
+  const $ = (selector, context = document) => context.querySelector(selector);
+  const $$ = (selector, context = document) => Array.from(context.querySelectorAll(selector));
+  const fa = (value) => new Intl.NumberFormat("fa-IR").format(Number(value) || 0);
+  const safe = (value) => String(value ?? "").replace(/[&<>"']/g, (character) => ({
+    "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+  })[character]);
+  const CART_KEY = "gadgetland_cart_v1";
+  const FAV_KEY = "gadgetland_demo_favorites_v1";
 
-function updateVariant(){selected=variants.find(item=>String(item.variant_id)===$('.variant-select').value)||variants[0];if(!selected)return;const onSale=Number(selected.sale_price)>0&&Number(selected.regular_price)>Number(selected.price);$('.price').classList.toggle('on-sale',onSale);$('.price').innerHTML=onSale?`<del>${fa(selected.regular_price)} تومان</del><strong>${fa(selected.price)} <small>تومان</small></strong>`:`${fa(selected.price)} <small>تومان</small>`;$('.selected-sku').textContent='SKU: '+selected.sku;$('.meta-sku').textContent=selected.sku;$('.selected-stock').textContent=fa(selected.stock)+' عدد در انبار';$('.stock-text').textContent=Number(selected.stock)?'موجود و آماده ارسال':'در حال حاضر ناموجود';$('.availability').classList.toggle('out',!Number(selected.stock));$('.add-product').disabled=!Number(selected.stock);$('.qty').value=1;$('.qty').max=selected.stock}
-function addToCart(){if(!selected||!Number(selected.stock))return;const qty=Math.min(Number(selected.stock),Math.max(1,parseInt($('.qty').value,10)||1)),cart=loadCart(),key='variant-'+selected.variant_id,row=cart.find(item=>item.key===key);if(row)row.qty=Math.min(Number(selected.stock),Number(row.qty)+qty);else cart.push({key,id:Number(selected.id),variant_id:Number(selected.variant_id),name:selected.name,price:Number(selected.price),qty,color:selected.color||'default',colorLabel:selected.color&&selected.color!=='default'?selected.color:'مدل اصلی',size:selected.size||null,image_path:selected.image_path||null});saveCart(cart);notice('محصول به سبد خرید اضافه شد ✓')}
+  let selected = null;
+  let product = null;
 
-function renderRelated(current){const list=allProducts.filter(product=>Number(product.id)!==Number(current.id)).slice(0,4);$('.related-grid').innerHTML=list.map(product=>`<a class="related-card" href="product.html?id=${Number(product.id)}"><figure>${product.image_path?`<img src="${safe(product.image_path)}" alt="${safe(product.name)}" loading="lazy">`:''}</figure><small>${safe(product.category_name||'لوازم جانبی')}</small><h3>${safe(product.name)}</h3><span>${fa(product.price)} تومان</span></a>`).join('')||'<p>محصول مرتبط دیگری ثبت نشده است.</p>';$$('.related-card img').forEach(image=>image.onerror=()=>image.remove())}
-function render(product,catalog){document.title=product.name+' | گجت‌لند';$('.wishlist').dataset.productFavorite=product.id;document.querySelector('meta[name="description"]').content=product.description||product.name;$('.crumb-category').textContent=product.category_name||'محصول';$('.crumb-category').href='shop.html?category='+encodeURIComponent(product.category_slug||product.category||'');$('.crumb-name').textContent=product.name;$('.product-name').textContent=product.name;$('.short-description').textContent=product.description||'یک انتخاب کاربردی و مطمئن از ویترین گجت‌لند برای تجربه‌ای سریع‌تر و هوشمندتر.';$('.full-description').textContent=product.long_description||product.description||'این محصول با تمرکز بر کیفیت، کارایی و تجربه استفاده روزمره انتخاب شده است. سلامت کالا پیش از ارسال بررسی می‌شود و با بسته‌بندی ایمن به دست شما می‌رسد.';$('.meta-category').textContent=product.category_name||product.category||'بدون دسته';$('.meta-category').href='shop.html?category='+encodeURIComponent(product.category_slug||product.category||'');
- if(product.image_path)showImage(product.image_path,product.name);else fallbackGallery();
- $('.variant-select').innerHTML=variants.map(item=>`<option value="${Number(item.variant_id)}">${safe(item.size?'مدل '+item.size:item.color&&item.color!=='default'?item.color:'نسخه اصلی')}</option>`).join('');$('.variation-box').hidden=variants.length<2;$('.variant-select').onchange=updateVariant;
- const attributes=(catalog?.attributes||[]).filter(item=>Number(item.visible)).map(item=>[item.attribute_name,item.value||item.custom_value]);$('.spec-list').innerHTML=[['برند',product.brand||'—'],['دسته‌بندی',product.category_name||product.category||'—'],['کد محصول',product.sku],['مدل',product.color==='default'?'نسخه اصلی':product.color],['تنوع',product.size||'استاندارد'],...attributes,['وضعیت',Number(product.stock)?'موجود':'ناموجود']].map(([title,value])=>`<div><dt>${safe(title)}</dt><dd>${safe(value||'—')}</dd></div>`).join('');updateVariant();renderRelated(product)}
-async function json(url){const response=await fetch(url,{credentials:'same-origin'}),data=await response.json().catch(()=>({ok:false}));if(!response.ok||!data.ok)throw Error(data.message||'دریافت اطلاعات ناموفق بود.');return data}
-async function init(){const id=new URLSearchParams(location.search).get('id');if(!id){location.replace('shop.html');return}try{const [detail,list,extras,catalogResult,session]=await Promise.all([json('api/products/'+encodeURIComponent(id)),json('api/products'),json('api/products/'+encodeURIComponent(id)+'/extras'),json('api/products/'+encodeURIComponent(id)+'/catalog'),json('api/csrf')]);csrf=session.csrf;currentUser=session.user;variants=detail.product;allProducts=list.products||[];render(variants[0],catalogResult.catalog);activeImages=[variants[0].image_path,...(extras.images||[]).map(item=>item.path)].filter((value,index,array)=>value&&array.indexOf(value)===index);if(activeImages.length){$('.thumbnails').innerHTML=activeImages.map((src,index)=>`<button class="thumb ${index?'':'active'}" type="button" data-image="${safe(src)}"><img src="${safe(src)}" alt="نمای ${index+1} محصول"></button>`).join('');$$('[data-image]').forEach(button=>button.onclick=()=>{showImage(button.dataset.image,variants[0].name);$$('.thumb').forEach(item=>item.classList.toggle('active',item===button))});$$('.thumb img').forEach(image=>image.onerror=()=>image.closest('.thumb').remove())}renderProductReviews(extras.reviews||[],id)}catch(error){console.error('Product load failed:',error);$('main').innerHTML='<div class="error-page"><h1>محصول پیدا نشد</h1><p>این محصول در دسترس نیست یا ارتباط با فروشگاه برقرار نشد.</p><a href="shop.html">بازگشت به فروشگاه</a></div>'}}
+  function notice(text) {
+    const node = $(".notice");
+    node.textContent = text;
+    node.classList.add("show");
+    clearTimeout(node._timer);
+    node._timer = setTimeout(() => node.classList.remove("show"), 2400);
+  }
 
-$('.qty-plus').onclick=()=>{if(selected)$('.qty').value=Math.min(Number(selected.stock),(parseInt($('.qty').value,10)||1)+1)};$('.qty-minus').onclick=()=>$('.qty').value=Math.max(1,(parseInt($('.qty').value,10)||1)-1);$('.qty').onchange=()=>{$('.qty').value=Math.min(Number(selected?.stock||1),Math.max(1,parseInt($('.qty').value,10)||1))};$('.add-product').onclick=addToCart;$('.share').onclick=async()=>{try{if(navigator.share)await navigator.share({title:document.title,url:location.href});else{await navigator.clipboard.writeText(location.href);notice('لینک محصول کپی شد.')}}catch{}};$$('[data-tab]').forEach(button=>button.onclick=()=>{$$('[data-tab]').forEach(item=>item.classList.toggle('active',item===button));$$('[data-panel]').forEach(panel=>panel.classList.toggle('active',panel.dataset.panel===button.dataset.tab))});$('.lightbox button').onclick=()=>$('.lightbox').classList.remove('open');$('.lightbox').onclick=event=>{if(event.target===$('.lightbox'))$('.lightbox').classList.remove('open')};document.addEventListener('keydown',event=>{if(event.key==='Escape')$('.lightbox').classList.remove('open')});cartCount();init();
+  function loadCart() {
+    try {
+      const rows = JSON.parse(localStorage.getItem(CART_KEY) || "[]");
+      return Array.isArray(rows) ? rows : [];
+    } catch (_) { return []; }
+  }
+
+  function saveCart(rows) {
+    localStorage.setItem(CART_KEY, JSON.stringify(rows));
+    const count = rows.reduce((sum, row) => sum + Number(row.qty || 0), 0);
+    localStorage.setItem("gadgetland_cart_count_v1", String(count));
+    $(".cart-count").textContent = fa(count);
+  }
+
+  function loadFavorites() {
+    try {
+      const ids = JSON.parse(localStorage.getItem(FAV_KEY) || "[]");
+      return new Set(Array.isArray(ids) ? ids.map(Number) : []);
+    } catch (_) { return new Set(); }
+  }
+
+  function saveFavorites(ids) {
+    localStorage.setItem(FAV_KEY, JSON.stringify([...ids]));
+  }
+
+  function showImage(src, name) {
+    const stage = $(".gallery-stage");
+    stage.innerHTML = src
+      ? `<img src="${safe(src)}" alt="${safe(name)}"><button class="zoom" type="button" aria-label="نمایش بزرگ">⌕</button>`
+      : `<div class="gallery-fallback"><i></i><span>تصویر نمایشی در دسترس نیست</span></div>`;
+    const image = stage.querySelector("img");
+    if (!image) return;
+    image.onerror = () => { stage.innerHTML = '<div class="gallery-fallback"><i></i><span>تصویر نمایشی در دسترس نیست</span></div>'; };
+    image.onclick = openLightbox;
+    stage.querySelector(".zoom").onclick = openLightbox;
+  }
+
+  function openLightbox() {
+    const image = $(".gallery-stage img");
+    if (!image) return;
+    $(".lightbox img").src = image.src;
+    $(".lightbox").classList.add("open");
+  }
+
+  function updateVariant() {
+    selected = product;
+    const onSale = Number(selected.sale_price) > 0 && Number(selected.regular_price) > Number(selected.price);
+    $(".price").innerHTML = onSale
+      ? `<del>${fa(selected.regular_price)} تومان</del><strong>${fa(selected.price)} <small>تومان</small></strong>`
+      : `<strong>${fa(selected.price)} <small>تومان</small></strong>`;
+    $(".selected-sku").textContent = "SKU: " + selected.sku;
+    $(".meta-sku").textContent = selected.sku;
+    $(".selected-stock").textContent = fa(selected.stock) + " عدد در انبار";
+    $(".stock-text").textContent = Number(selected.stock) ? "موجود و آماده ارسال" : "در حال حاضر ناموجود";
+    $(".availability").classList.toggle("out", !Number(selected.stock));
+    $(".add-product").disabled = !Number(selected.stock);
+    $(".qty").max = selected.stock;
+  }
+
+  function addToCart() {
+    if (!selected || !Number(selected.stock)) return;
+    const qty = Math.min(Number(selected.stock), Math.max(1, parseInt($(".qty").value, 10) || 1));
+    const cart = loadCart();
+    const key = "variant-" + selected.variant_id;
+    const row = cart.find((item) => item.key === key);
+    if (row) row.qty = Math.min(Number(selected.stock), Number(row.qty) + qty);
+    else cart.push({
+      key, id: selected.id, variant_id: selected.variant_id, name: selected.name, price: selected.price,
+      qty, color: selected.color || "default", colorLabel: selected.color || "مدل اصلی",
+      size: selected.size || null, image_path: selected.image_path || null
+    });
+    saveCart(cart);
+    notice("محصول به سبد نمایشی اضافه شد ✓");
+  }
+
+  function renderReviews() {
+    const list = DemoStore.reviews[Number(product.id)] || [];
+    const panel = $('[data-panel="reviews"]');
+    const average = list.length ? list.reduce((sum, item) => sum + Number(item.rating), 0) / list.length : 0;
+    $(".rating span").textContent = "★".repeat(Math.round(average)) + "☆".repeat(5 - Math.round(average));
+    $(".rating a").textContent = list.length ? fa(list.length) + " دیدگاه" : "بدون دیدگاه";
+    panel.innerHTML = `<span class="section-index">04 / REVIEWS</span><h2>دیدگاه خریداران</h2><div class="review-list">${list.length ? list.map((review) => `<article><div><b>${safe(review.name)}</b><span>${"★".repeat(Number(review.rating))}${"☆".repeat(5 - Number(review.rating))}</span></div><p>${safe(review.body)}</p><time>${safe(review.created_at)}</time></article>`).join("") : '<div class="empty-reviews"><b>دیدگاهی برای این نسخه نمایشی ثبت نشده است.</b><p>نمونه داده‌ها فقط برای نمایش طراحی صفحه قرار گرفته‌اند.</p></div>'}</div>`;
+  }
+
+  function renderRelated() {
+    const list = DemoStore.products.filter((item) => Number(item.id) !== Number(product.id)).slice(0, 4);
+    $(".related-grid").innerHTML = list.map((item) => `<a class="related-card" href="product.html?id=${Number(item.id)}"><figure>${item.image_path ? `<img src="${safe(item.image_path)}" alt="${safe(item.name)}" loading="lazy">` : ""}</figure><small>${safe(item.category_name)}</small><h3>${safe(item.name)}</h3><span>${fa(item.price)} تومان</span></a>`).join("");
+  }
+
+  function render() {
+    document.title = product.name + " | گجت‌لند";
+    $(".crumb-category").textContent = product.category_name;
+    $(".crumb-category").href = "shop.html?category=" + encodeURIComponent(product.category_slug);
+    $(".crumb-name").textContent = product.name;
+    $(".product-name").textContent = product.name;
+    $(".short-description").textContent = product.description;
+    $(".full-description").textContent = product.long_description;
+    $(".meta-category").textContent = product.category_name;
+    $(".meta-category").href = "shop.html?category=" + encodeURIComponent(product.category_slug);
+    showImage(product.image_path, product.name);
+    $(".variation-box").hidden = true;
+    updateVariant();
+    $(".spec-list").innerHTML = [
+      ["برند", product.brand], ["دسته‌بندی", product.category_name], ["کد محصول", product.sku],
+      ["مدل", product.color || "نسخه اصلی"], ["تنوع", product.size || "استاندارد"], ["وضعیت", Number(product.stock) ? "موجود" : "ناموجود"]
+    ].map(([title, value]) => `<div><dt>${safe(title)}</dt><dd>${safe(value || "—")}</dd></div>`).join("");
+
+    const favs = loadFavorites();
+    const wish = $(".wishlist");
+    wish.setAttribute("aria-pressed", String(favs.has(Number(product.id))));
+    wish.textContent = favs.has(Number(product.id)) ? "♥ در علاقه‌مندی‌ها" : "♡ افزودن به علاقه‌مندی‌ها";
+    renderReviews();
+    renderRelated();
+  }
+
+  function init() {
+    const id = new URLSearchParams(location.search).get("id");
+    product = DemoStore.getProduct(id || 1);
+    if (!product) {
+      $("main").innerHTML = '<div class="error-page"><h1>محصول پیدا نشد</h1><p>این محصول در نسخه نمایشی وجود ندارد.</p><a href="shop.html">بازگشت به فروشگاه</a></div>';
+      return;
+    }
+    render();
+    saveCart(loadCart());
+  }
+
+  $(".qty-plus").onclick = () => $(".qty").value = Math.min(Number(selected.stock), (parseInt($(".qty").value, 10) || 1) + 1);
+  $(".qty-minus").onclick = () => $(".qty").value = Math.max(1, (parseInt($(".qty").value, 10) || 1) - 1);
+  $(".qty").onchange = () => $(".qty").value = Math.min(Number(selected?.stock || 1), Math.max(1, parseInt($(".qty").value, 10) || 1));
+  $(".add-product").onclick = addToCart;
+  $(".wishlist").onclick = () => {
+    const favs = loadFavorites();
+    const id = Number(product.id);
+    if (favs.has(id)) favs.delete(id); else favs.add(id);
+    saveFavorites(favs);
+    const active = favs.has(id);
+    $(".wishlist").setAttribute("aria-pressed", String(active));
+    $(".wishlist").textContent = active ? "♥ در علاقه‌مندی‌ها" : "♡ افزودن به علاقه‌مندی‌ها";
+    notice(active ? "به علاقه‌مندی‌ها اضافه شد ✓" : "از علاقه‌مندی‌ها حذف شد");
+  };
+  $(".share").onclick = async () => {
+    try {
+      if (navigator.share) await navigator.share({ title: document.title, url: location.href });
+      else { await navigator.clipboard.writeText(location.href); notice("لینک محصول کپی شد."); }
+    } catch (_) {}
+  };
+  $$('[data-tab]').forEach((button) => button.onclick = () => {
+    $$('[data-tab]').forEach((item) => item.classList.toggle("active", item === button));
+    $$('[data-panel]').forEach((panel) => panel.classList.toggle("active", panel.dataset.panel === button.dataset.tab));
+  });
+  $(".lightbox button").onclick = () => $(".lightbox").classList.remove("open");
+  $(".lightbox").onclick = (event) => { if (event.target === $(".lightbox")) $(".lightbox").classList.remove("open"); };
+  document.addEventListener("keydown", (event) => { if (event.key === "Escape") $(".lightbox").classList.remove("open"); });
+
+  init();
+})();
